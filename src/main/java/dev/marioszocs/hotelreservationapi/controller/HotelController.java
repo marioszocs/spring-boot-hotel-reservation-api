@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Hotel Controller containing endpoints of Hotel related API calls
@@ -37,7 +38,7 @@ public class HotelController {
      * @return
      */
     @GetMapping(value = "/hotel/{id}", produces = "application/json")
-    public Hotel getHotel(Integer id) {
+    public Hotel getHotel(@PathVariable UUID id) {
         HotelValidator.validateId(id);
         return hotelService.getHotel(id);
     }
@@ -86,7 +87,7 @@ public class HotelController {
      * @return SuccessEntity
      */
     @DeleteMapping(value = "/hotel/{id}", produces = "application/json")
-    public SuccessEntity deleteHotel(@PathVariable Integer id){
+    public SuccessEntity deleteHotel(@PathVariable UUID id){
         HotelValidator.validateId(id);
         return hotelService.deleteHotel(id);
     }

@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +49,7 @@ public class HotelServiceImp implements HotelService {
      * @return Hotel
      */
     @Override
-    public Hotel getHotel(Integer id) {
+    public Hotel getHotel(UUID id) {
         validateExistence(id);
         return hotelRepository.findById(id).get();
     }
@@ -90,10 +91,10 @@ public class HotelServiceImp implements HotelService {
      * @return
      */
     @Override
-    public SuccessEntity deleteHotel(Integer id) {
+    public SuccessEntity deleteHotel(UUID id) {
         validateExistence(id);
         if(reservationRepository.findAll().stream()
-                .anyMatch(reservations -> reservations.getHotelId() == id)){
+                .anyMatch(reservations -> reservations.getHotelId().equals(id))){
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_DELETE);
         }
         SuccessEntity successEntity = new SuccessEntity();
@@ -113,7 +114,7 @@ public class HotelServiceImp implements HotelService {
         doesReservationOverlap(hotel);
         SuccessEntity successEntity = new SuccessEntity();
         hotel = hotelRepository.save(hotel);
-        successEntity.setSuccess(hotelRepository.existsById(hotel.getId()));
+        successEntity.setSuccess(hotelRepository.existsHotelByUUID(hotel.getId().toString()) != null);
         return successEntity;
     }
 
@@ -126,9 +127,9 @@ public class HotelServiceImp implements HotelService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String availTo = hotel.getAvailableTo();
         String availFrom = hotel.getAvailableFrom();
-        Integer inventoryId = hotel.getId();
+        UUID inventoryId = hotel.getId();
         List<Reservation> matchingReservationList = reservationRepository.findAll().stream().filter(reservations -> {
-            if (reservations.getHotelId() == inventoryId) {
+            if (reservations.getHotelId().equals(inventoryId)) {
                 try {
                     //Checks to see if the user dates are null, if so throw an error as it conflicts with a reservation
                     if (!StringUtils.hasText(availTo) && !StringUtils.hasText(availFrom)) {
@@ -161,8 +162,8 @@ public class HotelServiceImp implements HotelService {
      * @return
      */
     @Override
-    public boolean validateExistence(Integer id) {
-        if (!hotelRepository.existsById(id)){
+    public boolean validateExistence(UUID id) {
+        if (hotelRepository.existsHotelByUUID(id.toString()) == null){
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else {
             return true;

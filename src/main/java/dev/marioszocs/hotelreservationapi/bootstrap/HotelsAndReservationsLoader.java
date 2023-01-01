@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -35,28 +37,28 @@ public class HotelsAndReservationsLoader implements CommandLineRunner {
 
     private void loadReservationObject() {
         Reservation r1 = Reservation.builder()
-                .hotelId(1)
+                .hotelId(UUID.randomUUID())
                 .checkIn("2023-01-12")
                 .checkOut("2023-01-19")
                 .guests(2)
                 .build();
 
         Reservation r2 = Reservation.builder()
-                .hotelId(2)
+                .hotelId(UUID.randomUUID())
                 .checkIn("2023-01-12")
                 .checkOut("2023-01-19")
                 .guests(2)
                 .build();
 
         Reservation r3 = Reservation.builder()
-                .hotelId(3)
+                .hotelId(UUID.randomUUID())
                 .checkIn("2023-01-12")
                 .checkOut("2023-01-19")
                 .guests(2)
                 .build();
 
         Reservation r4 = Reservation.builder()
-                .hotelId(4)
+                .hotelId(UUID.randomUUID())
                 .checkIn("2023-01-12")
                 .checkOut("2023-01-19")
                 .guests(9)

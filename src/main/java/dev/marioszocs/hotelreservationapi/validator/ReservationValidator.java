@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import static dev.marioszocs.hotelreservationapi.constant.ErrorMessages.*;
 
@@ -33,8 +34,8 @@ public class ReservationValidator {
     /**
      * Validator for ids
      */
-    public static void validateId(Integer id) {
-        if (id == 0) {
+    public static void validateId(UUID id) {
+        if (id.equals(null)) {
             throw new InvalidRequestException(INVALID_HOTEL_ID);
         }
     }

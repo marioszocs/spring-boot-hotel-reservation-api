@@ -6,15 +6,16 @@ import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HotelService {
 
     List<Hotel> getAllHotels();
-    Hotel getHotel(Integer id);
+    Hotel getHotel(UUID id);
     List<Hotel> getAvailable(String dateFrom, String dateTo);
     IdEntity saveHotel(Hotel hotel);
-    SuccessEntity deleteHotel(Integer id);
+    SuccessEntity deleteHotel(UUID id);
     SuccessEntity patchHotel(Hotel hotel);
     void doesReservationOverlap(Hotel hotel);
-    boolean validateExistence(Integer id);
+    boolean validateExistence(UUID id);
 }

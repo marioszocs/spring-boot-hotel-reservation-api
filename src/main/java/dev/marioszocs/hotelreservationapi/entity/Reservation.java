@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -13,14 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reservation")
-public class Reservation {
+public class Reservation extends BaseEntity {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id;*/
 
     @Column(name = "hotel_id")
-    private Integer hotelId;
+    private UUID hotelId;
 
     @Column(name = "check_in")
     private String checkIn;
