@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Reservation Service tha performs operations regarding Reservation API Calls
@@ -45,7 +46,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public Reservation getReservation(Integer id) {
+    public Reservation getReservation(UUID id) {
         validateReservationExistence(id);
         return reservationRepository.findById(id).get();
     }
@@ -57,7 +58,7 @@ public class ReservationServiceImp implements ReservationService {
      */
     @Override
     public IdEntity saveReservation(Reservation reservations) {
-        Integer reservationsInventoryId = reservations.getHotelId();
+        UUID reservationsInventoryId = reservations.getHotelId();
 
         //boolean to determine if the Reservation is valid through the existence of the inventory ID.
         //if the inventory ID exists, then continue
@@ -88,7 +89,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public SuccessEntity deleteReservation(Integer id) {
+    public SuccessEntity deleteReservation(UUID id) {
         validateReservationExistence(id);
         reservationRepository.deleteById(id);
         SuccessEntity successEntity = new SuccessEntity();
@@ -102,7 +103,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public boolean validateInventoryExistence(Integer id) {
+    public boolean validateInventoryExistence(UUID id) {
         if (!hotelRepository.existsById(id)) {
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else if (hotelRepository.getById(id).getAvailableFrom() == null && hotelRepository.getById(id).getAvailableTo() == null) {
@@ -170,7 +171,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public boolean validateReservationExistence(Integer id) {
+    public boolean validateReservationExistence(UUID id) {
         if(!reservationRepository.existsById(id)){
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else {

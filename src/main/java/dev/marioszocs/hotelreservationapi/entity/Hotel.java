@@ -10,11 +10,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "hotel")
-public class Hotel{
+public class Hotel extends BaseEntity{
 
-    @Id
+   /* @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id;*/
 
     @Column
     private String name;
