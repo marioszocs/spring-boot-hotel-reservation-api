@@ -20,7 +20,7 @@ public class Hotel extends BaseEntity{
     private String name;
 
     @Column
-    private String type;
+    private ValidTypesOfHotelsEnum type = ValidTypesOfHotelsEnum.DELUXE;
 
     @Column
     private String description;

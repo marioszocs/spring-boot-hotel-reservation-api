@@ -2,6 +2,7 @@ package dev.marioszocs.hotelreservationapi.validator;
 
 import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
+import dev.marioszocs.hotelreservationapi.entity.ValidTypesOfHotelsEnum;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -111,7 +112,7 @@ public class HotelValidator {
      *
      * @param type
      */
-    public static void validateType(String type) {
+    public static void validateType(ValidTypesOfHotelsEnum type) {
         if (type == null || !Arrays.asList("DELUXE", "LUXURY", "SUITE").contains(type)) {
             throw new InvalidRequestException(ErrorMessages.INVALID_TYPE);
         }
