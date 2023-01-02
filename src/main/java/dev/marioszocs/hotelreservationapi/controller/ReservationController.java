@@ -5,7 +5,8 @@ import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Reservation;
 import dev.marioszocs.hotelreservationapi.service.ReservationService;
 import dev.marioszocs.hotelreservationapi.validator.ReservationValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.UUID;
 /**
  * Reservation Controller containing endpoints of Reservation related API calls
  */
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 public class ReservationController {
-
-    @Autowired
-    ReservationService reservationService;
+    private final ReservationService reservationService;
 
     /**
      * End point to get all reservations.
@@ -27,6 +28,7 @@ public class ReservationController {
      */
     @GetMapping(value = "/reservations", produces = "application/json")
     public List<Reservation> getReservationList(){
+        log.info("Get all reservations...");
         return reservationService.getAllReservations();
     }
 
@@ -39,6 +41,7 @@ public class ReservationController {
     @GetMapping(value = "/reservation/{id}", produces = "application/json")
     public Reservation getReservation(@PathVariable UUID id){
         ReservationValidator.validateId(id);
+        log.info("Get a user specified reservation with id = {}", id);
         return reservationService.getReservation(id);
     }
 
@@ -51,6 +54,7 @@ public class ReservationController {
     @PostMapping(value = "/reservation", produces = "application/json")
     public IdEntity saveReservation(@RequestBody Reservation reservation){
         ReservationValidator.validateReservationPOST(reservation);
+        log.info("Save a user specified reservation...");
         return reservationService.saveReservation(reservation);
     }
 
@@ -63,6 +67,7 @@ public class ReservationController {
     @DeleteMapping(value = "/reservation/{id}", produces = "application/json")
     public SuccessEntity deleteReservation(@PathVariable UUID id){
         ReservationValidator.validateId(id);
+        log.info("Delete a user specified reservation...");
         return reservationService.deleteReservation(id);
     }
 }

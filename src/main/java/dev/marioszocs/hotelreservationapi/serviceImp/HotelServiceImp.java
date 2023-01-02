@@ -6,15 +6,16 @@ import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
 import dev.marioszocs.hotelreservationapi.entity.Reservation;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import dev.marioszocs.hotelreservationapi.repository.HotelRepository;
 import dev.marioszocs.hotelreservationapi.repository.ReservationRepository;
 import dev.marioszocs.hotelreservationapi.service.HotelService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,12 +27,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@Transactional // TODO this is jakarta not javax...
+@RequiredArgsConstructor
+@Transactional
 public class HotelServiceImp implements HotelService {
-    @Autowired
-    private HotelRepository hotelRepository;
-    @Autowired
-    private ReservationRepository reservationRepository;
+
+    private final HotelRepository hotelRepository;
+    private final ReservationRepository reservationRepository;
 
     /**
      * Return all existing Hotel objects in the database
@@ -73,7 +74,7 @@ public class HotelServiceImp implements HotelService {
      * @return
      */
     @Override
-    public IdEntity saveHotel(Hotel hotel) {
+    public IdEntity saveHotel(@Valid Hotel hotel) {
         //If dates are empty strings make them null values so that they can be accepted by the database
         if ((!StringUtils.hasText(hotel.getAvailableFrom())) && (!(StringUtils.hasText(hotel.getAvailableTo())))) {
             hotel.setAvailableFrom(null);

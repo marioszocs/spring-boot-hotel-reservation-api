@@ -1,16 +1,15 @@
 package dev.marioszocs.hotelreservationapi.serviceImp;
 
 import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
-import dev.marioszocs.hotelreservationapi.repository.HotelRepository;
-import dev.marioszocs.hotelreservationapi.repository.ReservationRepository;
-import dev.marioszocs.hotelreservationapi.service.ReservationService;
 import dev.marioszocs.hotelreservationapi.dto.IdEntity;
 import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Reservation;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;
-
+import dev.marioszocs.hotelreservationapi.repository.HotelRepository;
+import dev.marioszocs.hotelreservationapi.repository.ReservationRepository;
+import dev.marioszocs.hotelreservationapi.service.ReservationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,13 +22,12 @@ import java.util.UUID;
  * Reservation Service tha performs operations regarding Reservation API Calls
  */
 @Slf4j
-@Service
 @Transactional
+@RequiredArgsConstructor
+@Service
 public class ReservationServiceImp implements ReservationService {
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private HotelRepository hotelRepository;
+    private final ReservationRepository reservationRepository;
+    private final HotelRepository hotelRepository;
 
     /**
      * Returns all existing Reservation objects in the database

@@ -113,7 +113,7 @@ public class HotelValidator {
      * @param type
      */
     public static void validateType(ValidTypesOfHotelsEnum type) {
-        if (type == null || !Arrays.asList("DELUXE", "LUXURY", "SUITE").contains(type)) {
+        if (type == null || !Arrays.asList("DELUXE", "LUXURY", "SUITE").contains(type.toString())) {
             throw new InvalidRequestException(ErrorMessages.INVALID_TYPE);
         }
     }

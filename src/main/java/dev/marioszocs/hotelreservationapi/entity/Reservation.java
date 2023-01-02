@@ -1,14 +1,19 @@
 package dev.marioszocs.hotelreservationapi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
+
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -16,23 +21,33 @@ import java.util.UUID;
 @Table(name = "reservation")
 public class Reservation extends BaseEntity {
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;*/
-
-    @Column(name = "hotel_id")
+    @Column(name = "hotel_id", nullable = false)
     private UUID hotelId;
 
-    @Column(name = "check_in")
+    @Column(name = "check_in", nullable = false)
     private String checkIn;
 
-    @Column(name = "check_out")
+    @Column(name = "check_out", nullable = false)
     private String checkOut;
 
-    @Column
+    @Min(1)
+    @Max(8)
+    @Column(nullable = false)
     private Integer guests;
 
     @Column
     private boolean status;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Reservation that = (Reservation) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
