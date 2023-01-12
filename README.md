@@ -28,7 +28,8 @@ Use Case: **Create Hotel**
       "type" : "String: (LUXURY, DELUXE, SUITE)", 
       "description" : "String",   
       "availableFrom" : "YYYY-MM-DD", 
-      "availableTo" : "YYYY-MM-DD" 
+      "availableTo" : "YYYY-MM-DD", 
+      "status": true 
       }
    ```
 
@@ -53,7 +54,8 @@ Use Case: **Update existing Hotel**
        "type" : "String: (LUXURY, DELUXE, SUITE)", 
        "description" : "String",   
        "availableFrom" : "YYYY-MM-DD", 
-       "availableTo" : "YYYY-MM-DD" 
+       "availableTo" : "YYYY-MM-DD",
+       "status": true  
      }
    ```
 
@@ -94,7 +96,7 @@ Use Case: **Create a reservation**
 - Verb: `POST`
 - Description: Creates a hotel reservation with an existing hotel.
 - Validation (Throws an `InvalidRequestException` when):
-    - The hotel inventory object ID does not exist (The foreign key does not exist)
+    - The hotel object ID does not exist (The foreign key does not exist)
     - Check in and check out dates are not in YYYY-MM-DD format
     - Check in and check out dates do not exist
     - Check in date comes after check out date
@@ -103,10 +105,11 @@ Use Case: **Create a reservation**
 - Request Body:
   ```json 
     {
-      "inventoryId": 0,
+      "hotelId": 0,
       "checkIn": "YYYY-MM-DD",
       "checkOut": "YYYY-MM-DD",
-      "guests": 0
+      "guests": 0, 
+      "status": true
     } 
   ```
 
@@ -157,19 +160,19 @@ Use Case: **Get all available hotels**
 - The table structures and values are as follows:
 
 **Hotel:**
-- Id: Integer (Primary Key)
+- Id: UUID (Primary Key)
 - Name: VarChar
-- Type: VarChar
+- Type: VarChar [ DELUXE, LUXURY, SUITE ]
 - Description: VarChar
-- Availiable From: Date
-- Available To: Date
+- Availiable From: Date YYYY-MM-DD
+- Available To: Date YYYY-MM-DD
 - Status: Boolean
 
 **Reservation:**
--  Id: Integer (Primary Key)
--  Inventory Id: Integer (Foreign Key)
--  Check in Date: Date
--  Check out Date: Date
+-  Id: UUID (Primary Key)
+-  Inventory Id: UUID (Foreign Key)
+-  Check in Date: Date YYYY-MM-DD
+-  Check out Date: Date YYYY-MM-DD
 -  Number of Guests: Integer
 -  Status: Boolean
 

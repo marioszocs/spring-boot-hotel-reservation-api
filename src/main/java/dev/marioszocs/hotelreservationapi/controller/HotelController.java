@@ -7,6 +7,7 @@ import dev.marioszocs.hotelreservationapi.service.HotelService;
 import dev.marioszocs.hotelreservationapi.validator.HotelValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,11 +29,10 @@ public class HotelController {
      * @return list of Hotels
      */
     @GetMapping(value = "/hotels", produces = "application/json")
-    public List<Hotel> getHotelList(){
-        log.info("Get all Hotels...");
-        return hotelService.getAllHotels();
+    public ResponseEntity<List<Hotel>> getHotelList(){
+        log.info("Get all: {} hotels from database", hotelService.getAllHotels().size());
+        return ResponseEntity.ok(hotelService.getAllHotels());
     }
-
 
     /**
      * End point to get user specified Hotel
@@ -99,6 +99,4 @@ public class HotelController {
         log.info("Delete a user specified hotel with id = {}", id);
         return hotelService.deleteHotel(id);
     }
-
-
 }

@@ -51,7 +51,7 @@ public class HotelServiceImp implements HotelService {
      */
     @Override
     public Hotel getHotel(UUID id) {
-        validateExistence(id);
+        validateHotelExistenceById(id);
         return hotelRepository.findById(id).get();
     }
 
@@ -93,7 +93,7 @@ public class HotelServiceImp implements HotelService {
      */
     @Override
     public SuccessEntity deleteHotel(UUID id) {
-        validateExistence(id);
+        validateHotelExistenceById(id);
         if(reservationRepository.findAll().stream()
                 .anyMatch(reservations -> reservations.getHotelId().equals(id))){
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_DELETE);
@@ -111,7 +111,7 @@ public class HotelServiceImp implements HotelService {
      */
     @Override
     public SuccessEntity patchHotel(Hotel hotel) {
-        validateExistence(hotel.getId());
+        validateHotelExistenceById(hotel.getId());
         doesReservationOverlap(hotel);
         SuccessEntity successEntity = new SuccessEntity();
         hotel = hotelRepository.save(hotel);
@@ -163,8 +163,9 @@ public class HotelServiceImp implements HotelService {
      * @return
      */
     @Override
-    public boolean validateExistence(UUID id) {
+    public boolean validateHotelExistenceById(UUID id) {
         if (hotelRepository.existsHotelByUUID(id.toString()) == null){
+            log.error("Invalid ID: The entered id = {} does not exist.", id);
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else {
             return true;

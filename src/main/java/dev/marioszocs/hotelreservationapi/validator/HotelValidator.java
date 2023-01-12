@@ -44,8 +44,9 @@ public class HotelValidator {
      * @param id
      */
     public static void validateId(UUID id) {
-        if (id.equals(null))
+        if (id.toString() == null) {
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_ID);
+        }
     }
 
     /**
@@ -101,7 +102,7 @@ public class HotelValidator {
         try {
             sdf.parse(date);
         } catch (ParseException e) {
-            log.debug("Invalid date " + date);
+            log.error("Invalid date format: {}", date);
             throw new InvalidRequestException(ErrorMessages.INVALID_DATE);
         }
         return true;

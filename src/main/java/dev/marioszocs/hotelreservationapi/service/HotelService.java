@@ -17,5 +17,5 @@ public interface HotelService {
     SuccessEntity deleteHotel(UUID id);
     SuccessEntity patchHotel(Hotel hotel);
     void doesReservationOverlap(Hotel hotel);
-    boolean validateExistence(UUID id);
+    boolean validateHotelExistenceById(UUID id);
 }
