@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Reservation Controller containing endpoints of Reservation related API calls
@@ -39,7 +38,7 @@ public class ReservationController {
      * @return Reservation object
      */
     @GetMapping(value = "/reservation/{id}", produces = "application/json")
-    public Reservation getReservation(@PathVariable UUID id){
+    public Reservation getReservation(@PathVariable Integer id){
         ReservationValidator.validateId(id);
         log.info("Get a user specified reservation with id = {}", id);
         return reservationService.getReservation(id);
@@ -65,7 +64,7 @@ public class ReservationController {
      * @return successEntity
      */
     @DeleteMapping(value = "/reservation/{id}", produces = "application/json")
-    public SuccessEntity deleteReservation(@PathVariable UUID id){
+    public SuccessEntity deleteReservation(@PathVariable Integer id){
         ReservationValidator.validateId(id);
         log.info("Delete a user specified reservation...");
         return reservationService.deleteReservation(id);

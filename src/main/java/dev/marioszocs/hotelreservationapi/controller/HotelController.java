@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Hotel Controller containing endpoints of Hotel related API calls
@@ -41,7 +40,7 @@ public class HotelController {
      * @return
      */
     @GetMapping(value = "/hotel/{id}", produces = "application/json")
-    public Hotel getHotel(@PathVariable UUID id) {
+    public Hotel getHotel(@PathVariable Integer id) {
         HotelValidator.validateId(id);
         log.info("Get hotel by id = {}", id);
         return hotelService.getHotel(id);
@@ -57,7 +56,7 @@ public class HotelController {
     @GetMapping(value = "/hotels/availabilitySearch", produces = "application/json")
     public List<Hotel> getHotel(@RequestParam("dateFrom") String from, @RequestParam("dateTo") String to){
         HotelValidator.validateDates(from, to);
-        log.info("Get Hotel between dates from: {} -> to: {}", from, to);
+        log.info("Get all Hotels available between dates from: {} to: {}", from, to);
         return hotelService.getAvailable(from, to);
     }
 
@@ -94,7 +93,7 @@ public class HotelController {
      * @return SuccessEntity
      */
     @DeleteMapping(value = "/hotel/{id}", produces = "application/json")
-    public SuccessEntity deleteHotel(@PathVariable UUID id){
+    public SuccessEntity deleteHotel(@PathVariable Integer id){
         HotelValidator.validateId(id);
         log.info("Delete a user specified hotel with id = {}", id);
         return hotelService.deleteHotel(id);

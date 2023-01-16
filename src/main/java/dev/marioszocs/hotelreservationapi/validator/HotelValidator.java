@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Slf4j
 public class HotelValidator {
@@ -43,8 +42,8 @@ public class HotelValidator {
      *
      * @param id
      */
-    public static void validateId(UUID id) {
-        if (id.toString() == null) {
+    public static void validateId(Integer id) {
+        if (id == 0 || id == null) {
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_ID);
         }
     }

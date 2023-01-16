@@ -7,18 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Hotel, UUID> {
+public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
-    @Query(value = "SELECT hotel.* FROM HOTEL AS hotel " +
-            "WHERE hotel.DT_AVAILABLE_FROM <= :dateFrom AND hotel.DT_AVAILABLE_TO >= :dateTo " +
-            "AND hotel.ID NOT IN " +
-            "(SELECT HOTEL_ID FROM RESERVATION WHERE (DT_CHECK_IN > :dateFrom OR DT_CHECK_OUT < :dateTo))", nativeQuery = true)
+    @Query(value = "SELECT * FROM hotel  WHERE hotel.available_from >= ?1 AND hotel.available_to <= ?2 AND hotel.ID NOT IN " +
+            "(SELECT hotel_id FROM reservation WHERE (check_in >= ?1 OR check_out <= ?2))", nativeQuery = true)
     List<Hotel> findAllBetweenDates(@Param("dateFrom") String dateFrom, @Param("dateTo") String dateTo);
 
-    @Query(value = "SELECT * FROM hotel WHERE id = ?1", nativeQuery = true)
-    UUID existsHotelByUUID(@Param("id") String id);
+    /*@Query(value = "SELECT * FROM hotel WHERE id = ?1", nativeQuery = true)
+    Integer existsHotelById(@Param("id") String id);*/
 
 }

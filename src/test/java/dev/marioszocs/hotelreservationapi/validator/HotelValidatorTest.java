@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 /**
  * Testing the HotelValidator class...
  */
@@ -55,13 +53,13 @@ class HotelValidatorTest {
 
     @Test
     void validateId_ValidCase() {
-        UUID id = UUID.randomUUID();
+        Integer id = 1;
         Assertions.assertDoesNotThrow(() -> HotelValidator.validateId(id));
     }
 
     @Test
     void validateId_InvalidCase1() {
-        UUID id = null;
+        Integer id = null;
         Assertions.assertThrows(NullPointerException.class, () -> HotelValidator.validateId(id));
     }
 

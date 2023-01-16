@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Reservation Service tha performs operations regarding Reservation API Calls
@@ -44,7 +43,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public Reservation getReservation(UUID id) {
+    public Reservation getReservation(Integer id) {
         validateReservationExistence(id);
         return reservationRepository.findById(id).get();
     }
@@ -56,16 +55,16 @@ public class ReservationServiceImp implements ReservationService {
      */
     @Override
     public IdEntity saveReservation(Reservation reservations) {
-        UUID reservationsInventoryId = reservations.getHotelId();
+        Integer reservationsInventoryId = reservations.getHotelId();
 
         //boolean to determine if the Reservation is valid through the existence of the inventory ID.
         //if the inventory ID exists, then continue
-        if (validateInventoryExistence(reservationsInventoryId)) {
+        if (validateHotelExistenceById(reservationsInventoryId)) {
             //boolean to determine if there is already a pre-existing reservation that overlaps with the users
             if (reservationOverlaps(reservations)) {
                 throw new InvalidRequestException(ErrorMessages.INVALID_DATE_OVERLAP);
             }
-            //determine if the dates are out of the Inventory's bounds
+            //determine if the dates are out of the Inventory's bounds  //TODO: getById is deprecated
             if (dateIsBefore(hotelRepository.getById(reservations.getHotelId()).getAvailableFrom(), reservations.getCheckIn()) && dateIsBefore(reservations.getCheckOut(), hotelRepository.getById(reservations.getHotelId()).getAvailableTo())) {
                 reservations = reservationRepository.save(reservations);
                 IdEntity idEntity = new IdEntity();
@@ -87,7 +86,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public SuccessEntity deleteReservation(UUID id) {
+    public SuccessEntity deleteReservation(Integer id) {
         validateReservationExistence(id);
         reservationRepository.deleteById(id);
         SuccessEntity successEntity = new SuccessEntity();
@@ -96,15 +95,15 @@ public class ReservationServiceImp implements ReservationService {
     }
 
     /**
-     * Checks to existene of an Hotel object in the database
+     * Checks to existene of a Hotel object in the database
      * @param id
      * @return
      */
     @Override
-    public boolean validateInventoryExistence(UUID id) {
+    public boolean validateHotelExistenceById(Integer id) {
         if (!hotelRepository.existsById(id)) {
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
-        } else if (hotelRepository.getById(id).getAvailableFrom() == null && hotelRepository.getById(id).getAvailableTo() == null) {
+        } else if (hotelRepository.getById(id).getAvailableFrom() == null && hotelRepository.getById(id).getAvailableTo() == null) {  //TODO getById is deprecated
             //Checks if the inventory has available to and available from dates, if not then throw an error as a reservation cannot be made.
             throw new InvalidRequestException(ErrorMessages.EMPTY_HOTEL_DATES);
         } else {
@@ -169,7 +168,7 @@ public class ReservationServiceImp implements ReservationService {
      * @return
      */
     @Override
-    public boolean validateReservationExistence(UUID id) {
+    public boolean validateReservationExistence(Integer id) {
         if(!reservationRepository.existsById(id)){
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else {
