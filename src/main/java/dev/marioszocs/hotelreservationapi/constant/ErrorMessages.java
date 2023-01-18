@@ -11,7 +11,7 @@ public final class ErrorMessages {
     public static final String INVALID_DATE_ORDER = "Invalid date: Start date must be before end date.";
     public static final String INVALID_RESERVATION_DATES = "Invalid Reservation Dates: The check in and/or check out dates are outside the available dates.";
     public static final String INVALID_DATE_OVERLAP = "Invalid Date: The entered date overlaps with an already registered reservation.";
-    public static final String INVALID_DATE_NULL_VALUES = "Invalid Date: If a date is entered, both the 'available to' and the 'available from' must be provided.";
+    public static final String INVALID_DATE_NULL_VALUES = "Invalid Date: If a date is entered, both the 'startDate' and the 'endDate' must be provided.";
     public static final String EMPTY_HOTEL_DATES = "Invalid Hotel: A reservation can not be made as the user specified hotel does not have available dates.";
     public static final String INVALID_DATE_CHANGE_NULL = "Invalid Date Change: Hotel contains a reservation, therefore null hotel dates cannot be entered.";
     public static final String INVALID_HOTEL_ID = "Invalid Hotel ID: Hotel ID can not be null";

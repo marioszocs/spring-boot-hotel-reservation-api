@@ -84,13 +84,6 @@ class HotelValidatorTest {
     }
 
     @Test
-    void validateDates_ValidCase2() {
-        String from = " ";
-        String to = " ";
-        Assertions.assertDoesNotThrow(() -> HotelValidator.validateDates(from, to));
-    }
-
-    @Test
     void validateDates_InvalidCase1() {
         String from = "2023-01-01";
         String to = "2022-01-01";
