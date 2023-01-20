@@ -17,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1")
 public class ReservationController {
     private final ReservationService reservationService;
 
@@ -30,7 +31,7 @@ public class ReservationController {
         log.info("Get all reservations...");
         return reservationService.getAllReservations();
     }
-
+    //jUnit, integrationtest, mockito, hibernate, lombok, jpa, swagger
     /**
      * End point to get user specified reservation.
      *
