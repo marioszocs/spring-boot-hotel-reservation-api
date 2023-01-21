@@ -1,12 +1,15 @@
 package dev.marioszocs.hotelreservationapi.controller;
 
+import dev.marioszocs.hotelreservationapi.constants.AppConstants;
 import dev.marioszocs.hotelreservationapi.dto.IdEntity;
 import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
 import dev.marioszocs.hotelreservationapi.service.HotelService;
 import dev.marioszocs.hotelreservationapi.validator.HotelValidator;
+import dev.marioszocs.hotelreservationapi.validator.PageNumberAndSizeValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +35,28 @@ public class HotelController {
     public ResponseEntity<List<Hotel>> getHotelList(){
         log.info("Get all: {} hotels from database", hotelService.getAllHotels().size());
         return ResponseEntity.ok(hotelService.getAllHotels());
+    }
+
+    /**
+     * End point to get Hotel paged list
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @return
+     */
+    @GetMapping(value = "/hotelPagedList", produces = "application/json")
+    public ResponseEntity<List<Hotel>> getPagedHotelList(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = AppConstants.DEFAULT_SORTING_PARAM) String sortBy) {
+
+        PageNumberAndSizeValidator.validatePageNumberAndSize(pageNumber, pageSize);
+        List<Hotel> hotelPagedList = hotelService.getHotelPagedList(pageNumber, pageSize, sortBy);
+
+        log.info("Return Hotel paged list with pageNumber: {}, pageSize: {} and sortBy: {}.", pageNumber, pageSize, sortBy);
+
+        return new ResponseEntity<>(hotelPagedList, HttpStatus.OK);
     }
 
     /**

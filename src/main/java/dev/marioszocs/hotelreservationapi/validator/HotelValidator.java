@@ -1,6 +1,6 @@
 package dev.marioszocs.hotelreservationapi.validator;
 
-import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
+import dev.marioszocs.hotelreservationapi.constants.ErrorMessages;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
 import dev.marioszocs.hotelreservationapi.entity.ValidTypesOfHotelsEnum;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;

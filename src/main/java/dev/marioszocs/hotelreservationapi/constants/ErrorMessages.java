@@ -1,5 +1,5 @@
 
-package dev.marioszocs.hotelreservationapi.constant;
+package dev.marioszocs.hotelreservationapi.constants;
 
 /**
  * Collection of Error Messages for Invalid Requests
@@ -21,5 +21,10 @@ public final class ErrorMessages {
     public static final String PARSE_ERROR = "Internal Error: A parsing error occurred.";
     public static final String INVALID_HOTEL_DELETE = "Invalid Request: Cannot delete hotel as there are active reservations.";
     public static final String INVALID_HOTEL_UPDATE = "Invalid Hotel Update: Cannot update user specified hotel as the new dates conflict with an active reservation.";
+
+    // Page number and size validation
+    public static final String PAGE_NUMBER_CANNOT_BE_LESS_THAN_ZERO = "Page number cannot be less than zero.";
+    public static final String SIZE_NUMBER_CANNOT_BE_LESS_THAN_ZERO = "Size number cannot be less than zero.";
+    public static final String MAX_PAGE_SIZE_EXCEPTION = "Page size must not be greater than: " + AppConstants.MAX_PAGE_SIZE;
 
 }

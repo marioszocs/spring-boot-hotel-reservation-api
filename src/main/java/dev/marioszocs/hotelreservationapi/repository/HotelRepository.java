@@ -14,8 +14,4 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT * FROM hotel  WHERE hotel.available_from >= ?1 AND hotel.available_to <= ?2 AND hotel.ID NOT IN " +
             "(SELECT hotel_id FROM reservation WHERE (check_in >= ?1 OR check_out <= ?2))", nativeQuery = true)
     List<Hotel> findAllBetweenDates(@Param("dateFrom") String dateFrom, @Param("dateTo") String dateTo);
-
-    /*@Query(value = "SELECT * FROM hotel WHERE id = ?1", nativeQuery = true)
-    Integer existsHotelById(@Param("id") String id);*/
-
 }

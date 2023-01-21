@@ -1,6 +1,6 @@
 package dev.marioszocs.hotelreservationapi.serviceImp;
 
-import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
+import dev.marioszocs.hotelreservationapi.constants.ErrorMessages;
 import dev.marioszocs.hotelreservationapi.dto.IdEntity;
 import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Reservation;

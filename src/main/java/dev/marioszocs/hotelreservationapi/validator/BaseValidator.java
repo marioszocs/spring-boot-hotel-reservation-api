@@ -1,6 +1,6 @@
 package dev.marioszocs.hotelreservationapi.validator;
 
-import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
+import dev.marioszocs.hotelreservationapi.constants.ErrorMessages;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,7 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import static dev.marioszocs.hotelreservationapi.constant.ErrorMessages.*;
+import static dev.marioszocs.hotelreservationapi.constants.ErrorMessages.*;
 
 /**
  * Base Validator that ensures user inputs are correctly formatted

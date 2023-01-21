@@ -4,7 +4,7 @@ import dev.marioszocs.hotelreservationapi.entity.Reservation;
 import dev.marioszocs.hotelreservationapi.exception.InvalidRequestException;
 import lombok.extern.slf4j.Slf4j;
 
-import static dev.marioszocs.hotelreservationapi.constant.ErrorMessages.INVALID_GUESTS;
+import static dev.marioszocs.hotelreservationapi.constants.ErrorMessages.INVALID_GUESTS;
 
 /**
  * Reservation Validator that ensures user inputs are correctly formatted

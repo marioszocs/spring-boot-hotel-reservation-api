@@ -1,6 +1,6 @@
 package dev.marioszocs.hotelreservationapi.serviceImp;
 
-import dev.marioszocs.hotelreservationapi.constant.ErrorMessages;
+import dev.marioszocs.hotelreservationapi.constants.ErrorMessages;
 import dev.marioszocs.hotelreservationapi.dto.IdEntity;
 import dev.marioszocs.hotelreservationapi.dto.SuccessEntity;
 import dev.marioszocs.hotelreservationapi.entity.Hotel;
@@ -11,6 +11,10 @@ import dev.marioszocs.hotelreservationapi.repository.ReservationRepository;
 import dev.marioszocs.hotelreservationapi.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,8 +22,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Hotel Service that preforms operations regarding Hotel API Calls
@@ -35,11 +39,33 @@ public class HotelServiceImp implements HotelService {
 
     /**
      * Return all existing Hotel objects in the database
+     *
      * @return List<Hotel>
      */
     @Override
     public List<Hotel> getAllHotels() {
         return hotelRepository.findAll();
+    }
+
+    /**
+     * Return existing Hotel with pagination
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param sortBy
+     * @return
+     */
+    @Override
+    public List<Hotel> getHotelPagedList(Integer pageNo, Integer pageSize, String sortBy) {
+
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, sortBy);
+        Page<Hotel> pagedResult = hotelRepository.findAll(paging);
+
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -52,6 +78,10 @@ public class HotelServiceImp implements HotelService {
     public Hotel getHotel(Integer id) {
         validateHotelExistenceById(id);
         return hotelRepository.findById(id).get();
+
+        // Ot without validateHotelExistenceById(id);
+        // Optional<Hotel> hotel = hotelRepository.findById(id);
+        // return hotel.isPresent() ? hotel.get() : null;
     }
 
     /**
@@ -87,14 +117,15 @@ public class HotelServiceImp implements HotelService {
 
     /**
      * Deletes a user specified Hotel object from the database
+     *
      * @param id
      * @return
      */
     @Override
     public SuccessEntity deleteHotel(Integer id) {
         validateHotelExistenceById(id);
-        if(reservationRepository.findAll().stream()
-                .anyMatch(reservations -> reservations.getHotelId().equals(id))){
+        if (reservationRepository.findAll().stream()
+                .anyMatch(reservations -> reservations.getHotelId().equals(id))) {
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_DELETE);
         }
         SuccessEntity successEntity = new SuccessEntity();
@@ -105,6 +136,7 @@ public class HotelServiceImp implements HotelService {
 
     /**
      * Updates a pre-existing Hotel object in the database
+     *
      * @param hotel
      * @return
      */
@@ -120,6 +152,7 @@ public class HotelServiceImp implements HotelService {
 
     /**
      * Checks to see if a reservation date overlaps with the inventory dates
+     *
      * @param hotel
      */
     @Override
@@ -148,7 +181,7 @@ public class HotelServiceImp implements HotelService {
                 }
             }
             return false;
-        }).collect(Collectors.toList());
+        }).toList();
 
         if (matchingReservationList.size() != 0) {
             throw new InvalidRequestException(ErrorMessages.INVALID_HOTEL_UPDATE);
@@ -163,7 +196,7 @@ public class HotelServiceImp implements HotelService {
      */
     @Override
     public boolean validateHotelExistenceById(Integer id) {
-        if (!hotelRepository.existsById(id)){
+        if (!hotelRepository.existsById(id)) {
             log.error("Invalid ID: The entered id = {} does not exist.", id);
             throw new InvalidRequestException(ErrorMessages.INVALID_ID_EXISTENCE);
         } else {
