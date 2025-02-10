@@ -119,4 +119,17 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <!-- Includes H2 driver - needed in case of running application locally with active "h2" spring profile -->
+            <id>h2</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
 </project>
