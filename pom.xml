@@ -5,37 +5,53 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>dev.marioszocs</groupId>
     <artifactId>hotel-reservation-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>hotel-reservation-api</name>
-    <description>hotel-reservation-api</description>
+    <name>Hotel Reservation API</name>
+    <description>
+        The Hotel Reservation API is a Spring Boot application designed to manage hotel reservations.
+        It provides RESTful endpoints for creating, updating, retrieving, and deleting hotel and reservation data.
+        The application uses Spring Data JPA for database interactions and supports validation using Spring Boot Starter
+        Validation.
+        It includes unit tests with Mockito and JUnit to ensure the reliability of the service.
+    </description>
 
     <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
+        <mysql.version>8.0.33</mysql.version>
+
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.4.1</version> <!-- Match your Spring Boot version -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <!-- Spring Boot Web Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>2.7.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -43,54 +59,48 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <!-- Spring Boot Test Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- MySQL Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <!-- <scope>test</scope>-->
+            <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.1.5.Final</version>
-        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
+        <!-- Springdoc OpenAPI for Spring Boot 3.x (Spring 6.x compatibility) -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.14</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.7.0</version>
         </dependency>
-        <!-- for @JsonIgnoreProperties -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.14.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.7.7</version>
-        </dependency>
-<!--        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -109,5 +119,18 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- Includes H2 driver - needed in case of running application locally with active "h2" spring profile -->
+            <id>h2</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>

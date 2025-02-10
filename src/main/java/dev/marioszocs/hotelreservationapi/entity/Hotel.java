@@ -2,12 +2,12 @@ package dev.marioszocs.hotelreservationapi.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 /**
  * Hotel Object
@@ -27,7 +27,7 @@ public class Hotel extends AuditableEntity {
     @Column()
     private String name;
 
-    @NotEmpty
+    //@NotEmpty
     @Column
     private ValidTypesOfHotelsEnum type = ValidTypesOfHotelsEnum.DELUXE;
 
